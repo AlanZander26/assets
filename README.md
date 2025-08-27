@@ -18,3 +18,27 @@ This package is intended as a **foundation** for building higher-level financial
 
 For detailed examples, go to `examples`.
 
+## Tests
+
+In order to test the package, first install it in editable mode along with the development dependencies:
+
+```bash
+pip install -e .
+pip install pytest
+```
+
+To run the full test suite, execute:
+
+```bash
+pytest
+```
+
+All tests are located in the `tests/` directory. You can also run a specific test file:
+
+```bash
+pytest tests/test_instruments.py
+```
+
+By default, `pytest` will discover any files matching the pattern `test_*.py` inside the `tests/` folder.
+
+
