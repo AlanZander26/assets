@@ -20,7 +20,7 @@ For detailed examples, go to `examples`.
 
 ## Tests
 
-In order to test the package, first install it in editable mode along with the development dependencies:
+In order to test the package, first install it in editable mode along with the development dependencies. So go to the root directory and type:
 
 ```bash
 pip install -e .
