@@ -50,5 +50,5 @@ class Derivative(Asset, ABC):
             self.expiration = expiration
     
     @abstractmethod
-    def price_at_expiration(self, ST): # Maybe constrain the price to be at price at expiration when the derivative expires?
+    def payoff(self, ST): # Maybe constrain the price to be at price at expiration when the derivative expires?
         pass

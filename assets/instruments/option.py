@@ -85,7 +85,7 @@ class Option(Derivative):
         )
 
 
-    def price_at_expiration(self, ST: float) -> float:
+    def payoff(self, ST: float) -> float:
         """
         Calculate the option's payoff at expiration given the underlying asset's price.
 

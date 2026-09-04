@@ -23,5 +23,5 @@ class Underlying(Asset, ABC):
     asset_category = "Underlying"
     
     
-    def price_at_expiration(self, ST):
+    def payoff(self, ST):
         return ST

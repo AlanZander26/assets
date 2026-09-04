@@ -120,9 +120,9 @@ class Asset(ABC):
         self._price = price
 
     @abstractmethod
-    def price_at_expiration(self, ST):
+    def payoff(self, ST):
         """
-        Abstract method to calculate the price of the asset at expiration.
+        Abstract method to calculate the payoff of an asset. For an expiring asset, this is the price at expiration.
 
         This method must be implemented by subclasses and defines how the asset's value 
         is determined at expiration, based on the underlying price.
@@ -135,7 +135,7 @@ class Asset(ABC):
         Returns
         -------
         float
-            The price of the asset at expiration.
+            The payoff or the price of the asset at expiration.
         """
         pass
 

@@ -76,7 +76,7 @@ class Futures(Derivative):
         except KeyError:
             raise ValueError(f"Invalid month in expiration: '{expiration[2:4]}'. Must be 01–12.")
 
-    def price_at_expiration(self, ST: float) -> float:
+    def payoff(self, ST: float) -> float:
         """
         Calculate the settlement price of the futures contract at expiration.
 
