@@ -1,6 +1,5 @@
 # Contains the YFinanceCurrencyPriceProvider class
 
-import yfinance as yf
 from assets.price_providers.price_provider import PriceProvider
 from assets.instruments.currency import Currency
 
@@ -12,6 +11,13 @@ class YFinanceCurrencyPriceProvider(PriceProvider):
     """
     A currency exchange rate provider that fetches the latest exchange from Yahoo Finance using the `yfinance` library.
     """
+    def __init__(self):
+        try:
+            import yfinance as yf
+        except ImportError:
+            raise ImportError(
+                "YFinanceCurrencyPriceProvider requires 'yfinance'. "
+            )
     @property
     def asset_class(self):
         return Currency

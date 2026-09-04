@@ -1,6 +1,5 @@
 # Contains the YFinanceStockPriceProvider class
 
-import yfinance as yf
 from assets.price_providers.price_provider import PriceProvider
 from assets.instruments.stock import Stock
 
@@ -12,6 +11,13 @@ class YFinanceStockPriceProvider(PriceProvider):
     """
     A stock price provider that fetches the latest prices from Yahoo Finance using the `yfinance` library.
     """
+    def __init__(self):
+        try:
+            import yfinance as yf
+        except ImportError:
+            raise ImportError(
+                "YFinanceStockPriceProvider requires 'yfinance'. "
+            )
     @property
     def asset_class(self):
         return Stock
