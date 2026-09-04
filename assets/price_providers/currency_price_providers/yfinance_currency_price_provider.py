@@ -14,6 +14,7 @@ class YFinanceCurrencyPriceProvider(PriceProvider):
     def __init__(self):
         try:
             import yfinance as yf
+            self._yf = yf
         except ImportError:
             raise ImportError(
                 "YFinanceCurrencyPriceProvider requires 'yfinance'. "
@@ -43,7 +44,7 @@ class YFinanceCurrencyPriceProvider(PriceProvider):
         """
         ticker = asset.name + "USD=X"
         try:
-            data = yf.Ticker(ticker)
+            data = self._yf.Ticker(ticker)
             # Try fast_info for speed
             price = getattr(data.fast_info, "last_price", None)
             if price is None:
@@ -58,7 +59,7 @@ class YFinanceCurrencyPriceProvider(PriceProvider):
     def get_previous_close_price(self, asset) -> float:
         ticker = asset.name + "USD=X"
         try:
-            data = yf.Ticker(ticker)
+            data = self._yf.Ticker(ticker)
             price = getattr(data.fast_info, "previous_close", None)
             if price is None:
                 hist = data.history(period="2d")
