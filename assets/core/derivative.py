@@ -48,7 +48,37 @@ class Derivative(Asset, ABC):
             self.expiration = ExpirationDate(expiration)
         else:
             self.expiration = expiration
+
+    def value_on_date(self, St, target_date, price_model, *args, **kwargs):
+        """ 
+        Calculates the value of the asset on a specific date using the specified pricing model. 
+
+        Parameters 
+        ---------- 
+        St : float or np.ndarray 
+            Current underlying price. 
+        target_date : datetime 
+            The target date for which to calculate the asset value. 
+        price_model : type 
+            The pricing model class to use. 
+        *args 
+            Additional positional arguments passed to the pricing model. 
+        **kwargs Additional keyword arguments passed to the pricing model. 
+        """ 
+        model = self._initialize_price_model(price_model)
+        if self.expiration is None: 
+            return model.value(St, *args, **kwargs)
+        self.expiration._validate_date(target_date)
+        target_date = self.expiration._convert_date_into_datetime(target_date)
+        T = (self.expiration.expiration_timetion_time - target_date).total_seconds() / (365 * 24 * 60 * 60)
+        if T < 0: # expired asset. Note that method 'value()' must handle the case T = 0 (expiration).
+            raise ValueError(f"Invalid input: {target_date}. Target date must be before expiration: '{self.expiration.expiration_date}'.")
+        return model.value(St, T, *args, **kwargs)
     
     @abstractmethod
     def payoff(self, ST): # Maybe constrain the price to be at price at expiration when the derivative expires?
+        pass
+
+    @abstractmethod
+    def _initialize_price_model(self, price_model):
         pass

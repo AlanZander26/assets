@@ -25,3 +25,6 @@ class Underlying(Asset, ABC):
     
     def payoff(self, ST):
         return ST
+
+    def value_on_date(self, St, *args, **kwargs):
+        return St

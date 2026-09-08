@@ -31,7 +31,7 @@ def test_futures_creation():
     assert oil_fut.price == 83.50
     assert oil_fut.forward_price == 85.00
     assert oil_fut.contract_size == 1000
-    assert oil_fut.price_at_expiration(ST=90) == 5000 
+    assert oil_fut.payoff(ST=90) == 5000 
 
 
 def test_option_creation_and_expiration():
@@ -63,7 +63,7 @@ def test_option_creation_and_expiration():
 
 # Test most important methods
 
-def test_price_at_expiration():
+def test_payoff():
     # Futures
     oil_fut = Futures(
         underlying=Stock("CL"),
@@ -72,8 +72,8 @@ def test_price_at_expiration():
         contract_size=1000,
         price=83.50
     )
-    assert oil_fut.price_at_expiration(ST=90) == 5000 
-    assert oil_fut.price_at_expiration(ST=80) == -5000 
+    assert oil_fut.payoff(ST=90) == 5000 
+    assert oil_fut.payoff(ST=80) == -5000 
     # Option
     pypl = Stock("PYPL", price=70)
     pypl_call = Option(
@@ -83,8 +83,8 @@ def test_price_at_expiration():
         option_type="C",
         price=5.25
     )
-    assert pypl_call.price_at_expiration(ST=80) == 500
-    assert pypl_call.price_at_expiration(ST=74.99) == 0
+    assert pypl_call.payoff(ST=80) == 500
+    assert pypl_call.payoff(ST=74.99) == 0
 
 
 def test_invalid_option_type():

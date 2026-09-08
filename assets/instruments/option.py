@@ -84,7 +84,6 @@ class Option(Derivative):
             + str(int(strike * 1e3)).zfill(8)  # Strike price as an 8-digit integer (padded)
         )
 
-
     def payoff(self, ST: float) -> float:
         """
         Calculate the option's payoff at expiration given the underlying asset's price.
@@ -107,4 +106,9 @@ class Option(Derivative):
         elif self.option_type == "P":
             price_at_expr = self.multiplier * np.maximum(0, K - ST)  # Payoff for put option
         return price_at_expr
-        
+
+    def _initialize_price_model(self, price_model):
+        try:
+            return price_model(strike=self.strike, option_type=self.option_type)
+        except Exception as e:
+            raise TypeError(f"Could not initialize price model '{price_model.__name__}' for Option. The price model must accept 'strike' and 'option_type' as initialization arguments.") from e

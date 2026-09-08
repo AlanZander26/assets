@@ -36,22 +36,64 @@ class ExpirationDate:
         Raises
         ------
         TypeError
-            If `expiration_date` is not a string.
-        TypeError
-            If `expiration_date` is not in the correct 'YYMMDD' format.
+            If expiration_date is not a string.
+
+        ValueError
+            If expiration_date is not in the correct 'YYMMDD' format.
         """
-        if not isinstance(expiration_date, str):
-            raise TypeError(f"Expiration date must be a string of the form 'YYMMDD', not of type {type(expiration_date)}")
-        try:
-            self.expiration_time = datetime.strptime(expiration_date, '%y%m%d')  # Validate expiration date format
-        except ValueError:
-            raise ValueError(f"Invalid expiration date format: '{expiration_date}'. Expected 'YYMMDD'.")
+        self._validate_date(expiration_date)
         self.expiration_date = expiration_date
+        self.expiration_time = self._convert_date_into_datetime(expiration_date)
         self.isTimeFixed = False
         self._fixed_time = None
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.expiration_date})"
+
+    @staticmethod
+    def _validate_date(date):
+        """
+        Validate that a date is a string in 'YYMMDD' format.
+
+        Parameters
+        ----------
+        date : str
+            Date in the format 'YYMMDD'.
+
+        Raises
+        ------
+        TypeError
+            If date is not a string.
+
+        ValueError
+            If date is not in the correct 'YYMMDD' format.
+        """
+
+        if not isinstance(date, str):
+            raise TypeError(f"Date must be a string of the form 'YYMMDD', not of type {type(date).__name__}.")
+
+        try:
+            datetime.strptime(date, '%y%m%d')
+        except ValueError:
+            raise ValueError(f"Invalid date format: '{date}'. Expected 'YYMMDD'.")
+
+    @staticmethod
+    def _convert_date_into_datetime(date):
+        """
+        Converts a date string in the format 'YYMMDD' into a datetime object.
+
+        Parameters
+        ----------
+        date : str
+            Date in the format 'YYMMDD'.
+
+        Returns
+        -------
+        datetime
+            The corresponding datetime object.
+        """
+
+        return datetime.strptime(date, '%y%m%d')
 
     @property
     def T(self) -> float:
