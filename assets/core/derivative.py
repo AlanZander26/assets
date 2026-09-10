@@ -3,6 +3,7 @@
 from abc import ABC, abstractmethod
 from assets.core.asset import Asset
 from assets.utils.expiration_date import ExpirationDate
+from datetime import datetime
 
 #################################
 # Derivative class
@@ -82,3 +83,14 @@ class Derivative(Asset, ABC):
     @abstractmethod
     def _initialize_price_model(self, price_model):
         pass
+
+    def current_value(self, price_model, *args, **kwargs):
+        S0 = self.get_true_underlying_price()
+        today_date = datetime.now().strftime("%y%m%d")
+        return self.value_on_date(S0, today_date, price_model, *args, **kwargs)
+    
+    def current_valuation(self, price_model, *args, **kwargs):
+        P = self.price
+        return 100 * (self.current_value(price_model, *args, **kwargs) - P) / P
+
+
