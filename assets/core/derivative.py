@@ -70,7 +70,7 @@ class Derivative(Asset, ABC):
             return model.value(St, *args, **kwargs)
         self.expiration._validate_date(target_date)
         target_date = self.expiration._convert_date_into_datetime(target_date)
-        T = (self.expiration.expiration_timetion_time - target_date).total_seconds() / (365 * 24 * 60 * 60)
+        T = (self.expiration.expiration_time - target_date).total_seconds() / (365 * 24 * 60 * 60)
         if T < 0: # expired asset. Note that method 'value()' must handle the case T = 0 (expiration).
             raise ValueError(f"Invalid input: {target_date}. Target date must be before expiration: '{self.expiration.expiration_date}'.")
         return model.value(St, T, *args, **kwargs)
